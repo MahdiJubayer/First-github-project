@@ -3,18 +3,26 @@ import HomePage from "./HomePage";
 import AboutPage from "./AboutPage";
 import Header from "./common/Headder";
 import InformationPage from "./InformationPage";
+import { Route, Switch, Redirect } from "react-router-dom";
+import NotFound from "./NotFound";
+import ManageInformationPage from "./ManageInformationPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  function getPage() {
-    let route = window.location.pathname;
-    if (route === "/about") return <AboutPage />;
-    if (route === "/information") return <InformationPage />;
-    return <HomePage />;
-  }
   return (
     <div className="container-fluid">
+      <ToastContainer autoClose={3000} hideProgressBar />
       <Header />
-      {getPage()}
+      <Switch>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/information" component={InformationPage} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="/course/:slug" component={ManageInformationPage} />
+        <Route path="/course" component={ManageInformationPage} />
+        <Redirect from="/about-page" to="about" />
+        <Route component={NotFound} />
+      </Switch>
     </div>
   );
 }
